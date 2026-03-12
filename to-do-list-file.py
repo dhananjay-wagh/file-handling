@@ -2,10 +2,10 @@
 from pathlib import Path
 
 file_path = "tasks-to-do.txt"
-a = Path(file_path)
+task_file = Path(file_path)
 
-if not a.exists():
-    a.touch()
+if not task_file.exists():
+    task_file.touch()
 tasks = []
 with open(file_path) as importing_tasks:
     tasks = [ task.strip() for task in importing_tasks.readlines()]
@@ -23,12 +23,15 @@ while True:
             for index, task  in enumerate(tasks , start= 1):
                 print(f'{index}. {task}')
     elif menu == '3':
-        delete = int(input("Enter which task do you want to delete (task number): "))
-        if 1 <= delete <= len(tasks):
-            print(f'{tasks[delete - 1]} has been deleted from the tasks')
-            del tasks[delete - 1]
-        else:
-            print("The Task Number doesn't exist")
+        try:
+            delete = int(input("Enter which task do you want to delete (task number): "))
+            if 1 <= delete <= len(tasks):
+                print(f'{tasks[delete - 1]} has been deleted from the tasks')
+                del tasks[delete - 1]
+            else:
+                print("The Task Number doesn't exist")
+        except ValueError as e:
+            print(f'Error: {e}')
     elif menu.lower() == 'q':
         with open(file_path , 'w') as f:
             for task in tasks:
